@@ -24,3 +24,16 @@ app.add_middleware(
 
 # Include routes
 app.include_router(routes.router, tags=["public"])
+
+
+# start command = uvicorn app.main:app --reload
+
+# git command after modifing or adding files and push to the branch
+
+# git add .
+# git commit -m"detail of code"
+# git push
+
+# to pull the changes
+
+# git pull
