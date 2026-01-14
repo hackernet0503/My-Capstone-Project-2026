@@ -9,7 +9,7 @@ load_dotenv()
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from app.models.models import Base
-from app.models.models import User
+from app.models.models import User, SubmittedURL, PhishingLinkMutation, WhoisIPInfo, URLWhoisMapping, DetectionLog
 
 config = context.config
 

@@ -11,7 +11,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     username: str
     password: str
-
+    
 
 class UserLogin(BaseModel):
     username: str
@@ -23,7 +23,7 @@ class UserResponse(BaseModel):
     name: str
     email: EmailStr
     username: str
-    created_at: datetime
-
+    created_at: Optional[datetime] = None 
+    
     class Config:
         from_attributes = True

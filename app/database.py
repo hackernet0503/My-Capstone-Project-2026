@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv  
 
 # load_dotenv()
-load_dotenv(dotenv_path=r"C:\Users\ghara\OneDrive\Desktop\parth\capstone s\.env")
+load_dotenv(dotenv_path=r"C:\Users\Shardul\OneDrive\Desktop\my capstone project 2026\.env")
 
 # MySQL DB connection string
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -29,3 +29,8 @@ def get_db():
 
 # to check databse url is loaded or not
 print("DATABASE_URL:", DATABASE_URL)
+
+
+
+
+#  alembic revision --autogenerate -m"intial migration"
