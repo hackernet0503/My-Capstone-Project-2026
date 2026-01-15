@@ -1,22 +1,19 @@
-
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-import os
-from dotenv import load_dotenv  
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-# load_dotenv()
-load_dotenv(dotenv_path=r"C:\Users\Shardul\OneDrive\Desktop\my capstone project 2026\.env")
+from app.config import settings
 
-# MySQL DB connection string
-DATABASE_URL = os.getenv("DATABASE_URL")
-# Create SQLAlchemy engine  by removing ssl_args
-engine = create_engine(DATABASE_URL)
+# Create SQLAlchemy engine
+engine = create_engine(settings.DATABASE_URL)
 
 # Session factory
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
-# Declarative base
+# Base class for models
 Base = declarative_base()
 
 # Dependency for FastAPI routes
@@ -26,11 +23,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-# to check databse url is loaded or not
-print("DATABASE_URL:", DATABASE_URL)
-
-
-
-
-#  alembic revision --autogenerate -m"intial migration"

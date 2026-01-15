@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.database import Base, engine
-from app.routes import routes 
-from app.models import models 
 
-# Create all tables
+from app.database import Base, engine
+from app.routes.routes import router
+
+# Create database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -16,24 +16,16 @@ app = FastAPI(
 # CORS settings
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # frontend URL
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routes
-app.include_router(routes.router, tags=["public"])
+# Include API routes
+app.include_router(router)
 
 
-# start command = uvicorn app.main:app --reload
-
-# git command after modifing or adding files and push to the branch
-
-# git add .
-# git commit -m"detail of code"
-# git push
-
-# to pull the changes
-
-# git pull
+@app.get("/")
+def root():
+    return {"status": "Backend running successfully"}

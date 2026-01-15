@@ -24,13 +24,16 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
-    name = Column(String(100), nullable=False)
-    username = Column(String(100), unique=True, nullable=False)
-    email = Column(String(255), unique=True, nullable=False)
-    password = Column(String(255), nullable=False)
+    username = Column(String(100), unique=True, nullable=False, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    hashed_password = Column(String(255), nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    submitted_urls = relationship("SubmittedURL", back_populates="user")
+    submitted_urls = relationship(
+        "SubmittedURL",
+        back_populates="user",
+        cascade="all, delete-orphan"
+    )
 
 
 # =========================
@@ -51,8 +54,16 @@ class SubmittedURL(Base):
     analyzed_at = Column(DateTime(timezone=True), server_default=func.now())
 
     user = relationship("User", back_populates="submitted_urls")
-    mutations = relationship("PhishingLinkMutation", back_populates="submitted_url")
-    logs = relationship("DetectionLog", back_populates="submitted_url")
+    mutations = relationship(
+        "PhishingLinkMutation",
+        back_populates="submitted_url",
+        cascade="all, delete-orphan"
+    )
+    logs = relationship(
+        "DetectionLog",
+        back_populates="submitted_url",
+        cascade="all, delete-orphan"
+    )
 
 
 # =========================
@@ -63,7 +74,9 @@ class PhishingLinkMutation(Base):
 
     mutation_id = Column(Integer, primary_key=True, autoincrement=True)
     original_url_id = Column(
-        Integer, ForeignKey("submitted_urls.url_id"), nullable=False
+        Integer,
+        ForeignKey("submitted_urls.url_id"),
+        nullable=False
     )
 
     mutated_url = Column(Text, nullable=False)
